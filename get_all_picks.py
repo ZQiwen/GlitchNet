@@ -35,7 +35,7 @@ def get_std(x,data):
         tmp[i,:] = data[x[i]:x[i]+500]
     return np.std(tmp,axis=1)
 def get_peaks(data):
-    h = 300
+    h = 200
     d = 200
     data = butter_bandpass_filtfilt(data, np.array([0.001,2]), 20,2)
     
