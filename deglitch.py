@@ -154,8 +154,8 @@ for filename in mseed_files:
       #%% ----  fig: raw data aligned with glitch free data ----
       # --------------------------------------------------------
       time_axis = np.linspace(0, (npt_raw_obs-1) / sps, npt_raw_obs)
-      st = read_large_mseed('Input'+'/'+filename)
-      raw_obs = st[i_component].data
+      st1 = read_large_mseed('Input'+'/'+filename)
+      raw_obs = st1[i_component].data
       before_deglitch = np.array(
             [raw_obs[tshift_plot[i_glitch]+np.arange(npt)] for i_glitch in
              range(glitch_list.shape[0])]
