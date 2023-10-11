@@ -23,7 +23,8 @@ autoencoder = AutoEncoder(npt, [256, 128, 64, 32], [['rbmw1', 'rbmhb1', 'rbmha1'
                                                      ['rbmw2', 'rbmhb2', 'rbmha2'],
                                                      ['rbmw3', 'rbmhb3', 'rbmha3'],
                                                      ['rbmw4', 'rbmhb4', 'rbmha4']], 
-                          tied_weights=False)
+                          tied_weights=False,
+                          sigma = 0.0)
 
 autoencoder.load_weights('./out-VBB/au.chp')
 
