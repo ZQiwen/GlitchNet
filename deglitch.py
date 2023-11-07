@@ -13,6 +13,7 @@ import peakutils
 from time import time 
 from paras import *
 import os
+import warnings
 from detect import read_large_mseed
 
 # ==================================================
@@ -62,15 +63,15 @@ for filename in mseed_files:
         continue
     
     # date=filename.split('.')[0].split('_')[-1]
-    
-    glitch_list = np.load(data_dir+'/'+filename[:-6]+st[i_component].stats.channel+write_starttime(st[i_component].stats.starttime)+'.npy')
-    glitch_list = glitch_list.astype(int) - 160    
-    n_glitch=glitch_list.shape[0]
-    # assert n_glitch > 0
-    if n_glitch == 0:
+    cata = data_dir+'/'+filename[:-6]+st[i_component].stats.channel+write_starttime(st[i_component].stats.starttime)+'.npy'
+    if not os.path.exists(cata):
         warnings.warn('No glitch found :' + st[i_component].__str__())
         st[i_component].data = raw_obs
         continue
+    glitch_list = np.load(cata)
+    glitch_list = glitch_list.astype(int) - 160    
+    n_glitch=glitch_list.shape[0]
+    assert n_glitch > 0
     
     # ------------------------------
     # ---------- deglitch ----------
