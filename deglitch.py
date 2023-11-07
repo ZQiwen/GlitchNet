@@ -71,7 +71,7 @@ for filename in mseed_files:
     glitch_list = np.load(cata)
     glitch_list = glitch_list.astype(int) - 160    
     n_glitch=glitch_list.shape[0]
-    assert n_glitch > 0
+    # assert n_glitch > 0
     
     # ------------------------------
     # ---------- deglitch ----------
