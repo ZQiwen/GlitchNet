@@ -12,6 +12,7 @@ from get_all_picks import get_peaks
 import os
 import io
 import time
+import warnings
 from paras import INPUT_FOLDER,MODEL,IF_PLOT,SAVE_GLITCH_CATALOG,SP_DATA
 
 def read_large_mseed(filenm):
@@ -80,9 +81,6 @@ for filenm in filelist:
         if len(data) < 600 :
             warnings.warn('Trace too short, no detection processes are implemented :' + st[tnum].__str__())
             continue
-        if len(idx) == 0:
-            warnings.warn('No glitch found :' + st[tnum].__str__())
-            continue
         if not SP_DATA:
             idx = idx[idx > 161]
             idx = idx[idx < len(data)-441]
@@ -91,9 +89,15 @@ for filenm in filelist:
             idx = idx[idx > 196]
             idx = idx[idx < len(data)-1006]
             dat = cut_data_sp(data, idx)
+        if len(idx) == 0:
+            warnings.warn('No glitch found :' + st[tnum].__str__())
+            continue
         dat = normalization_array(dat)
         pre = prediction(dat, model)
         idx = idx[pre>0.8]
+        if len(idx) == 0:
+            warnings.warn('No glitch found :' + st[tnum].__str__())
+            continue
         np.save('catalog_for_removal/'+filenm[:-6]+st[tnum].stats.channel+write_starttime(st[tnum].stats.starttime)+'.npy',idx)
         if IF_PLOT:
             plt.figure(figsize=[15,7])
