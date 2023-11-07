@@ -55,14 +55,22 @@ for filename in mseed_files:
     raw_obs = st[i_component].data.astype(np.float32)
     
     npt_raw_obs = raw_obs.shape[0]
-    assert npt_raw_obs > npt
+    # assert npt_raw_obs > npt
+    if npt_raw_obs <= npt:
+        warnings.warn('Trace too short to carry out deglitch:' + st[i_component].__str__())
+        st[i_component].data = raw_obs
+        continue
     
     # date=filename.split('.')[0].split('_')[-1]
     
     glitch_list = np.load(data_dir+'/'+filename[:-6]+st[i_component].stats.channel+write_starttime(st[i_component].stats.starttime)+'.npy')
     glitch_list = glitch_list.astype(int) - 160    
     n_glitch=glitch_list.shape[0]
-    assert n_glitch > 0
+    # assert n_glitch > 0
+    if n_glitch == 0:
+        warnings.warn('No glitch found :' + st[i_component].__str__())
+        st[i_component].data = raw_obs
+        continue
     
     # ------------------------------
     # ---------- deglitch ----------
