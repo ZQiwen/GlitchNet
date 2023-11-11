@@ -77,10 +77,10 @@ for filenm in filelist:
     starttime = [trace.stats.starttime for trace in st]
     for tnum in range(len(dataset)):
         data = dataset[tnum]
-        idx,amp = get_peaks(data) 
         if len(data) < 600 :
             warnings.warn('Trace too short, no detection processes are implemented :' + st[tnum].__str__())
             continue
+        idx,amp = get_peaks(data) 
         if not SP_DATA:
             idx = idx[idx > 161]
             idx = idx[idx < len(data)-441]
